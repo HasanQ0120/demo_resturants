@@ -64,7 +64,7 @@ export const siteConfig = {
   menuSection: {
     eyebrow: "The Menu",
     title: "Built to crave",
-    subtitle: "Everything's cooked fresh to order. Tap any item to order it on WhatsApp.",
+    subtitle: "Everything's cooked fresh to order. Tap any item to customize and add it to your order.",
   },
 
   /** Home-page teaser: shows the items flagged `featured` in src/data/menu.ts. */
@@ -103,8 +103,8 @@ export const siteConfig = {
 
   orderCta: {
     title: "Hungry? Let's fix that.",
-    subtitle: "Send us your order on WhatsApp and we'll have it hot and ready.",
-    button: "Order on WhatsApp",
+    subtitle: "Build your order online and we'll have it hot and ready.",
+    button: "Start Your Order",
   },
 
   /** Brand palette — injected as CSS variables and used by Tailwind (bg-primary, text-muted, …). */

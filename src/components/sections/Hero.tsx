@@ -1,8 +1,7 @@
 import type { CSSProperties } from "react";
 import { siteConfig } from "@/config/site";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { withVersion } from "@/lib/asset-version";
-import { Button, WhatsAppIcon } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroPhoto } from "./HeroPhoto";
 
@@ -45,10 +44,7 @@ export function Hero() {
           </p>
 
           <div className="animate-rise mt-8 flex flex-col gap-3 sm:flex-row" style={delay(0.45)}>
-            <Button href={buildWhatsAppLink()}>
-              <WhatsAppIcon />
-              {hero.primaryCta}
-            </Button>
+            <Button href="/menu">{hero.primaryCta}</Button>
             <Button href="/menu" variant="ghost">
               {hero.secondaryCta}
             </Button>

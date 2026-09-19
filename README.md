@@ -1,6 +1,6 @@
 # Burger Restaurant: Demo Template
 
-A dark, mobile-first, multi-page restaurant site built with Next.js 16, with a photographic hero (a light pointer-tilt on desktop) and scroll animations (Framer Motion). Ordering menu items adds them to a shared cart, then walks through a full cart → checkout → status flow in-site (see [Order flow](#order-flow-front-end-only)); generic "Order Now" buttons not tied to one item (navbar, hero, sticky mobile bar, the CTA band) open WhatsApp instead.
+A dark, mobile-first, multi-page restaurant site built with Next.js 16, with a photographic hero (a light pointer-tilt on desktop) and scroll animations (Framer Motion). Ordering menu items adds them to a shared cart, then walks through a full cart → checkout → status flow in-site (see [Order flow](#order-flow-front-end-only)); generic "Order Now" buttons not tied to one item (navbar, hero, sticky mobile bar, the CTA band) send people to the menu to start that flow. A WhatsApp link builder (`src/lib/whatsapp.ts`) still ships in the project, unused, in case a client wants a "message us to order" fallback instead.
 
 A fully procedural, code-only 3D burger (React Three Fiber — no model files, no textures) also lives in the codebase, unused by default. See [3D burger (currently unused)](#3d-burger-currently-unused) if you want to bring it back.
 
@@ -35,7 +35,7 @@ All client-specific content lives in four places. Components read from these, so
 | Name, tagline, all copy, contact details, hours, social links, nav links | `src/config/site.ts` |
 | Brand colors (used through Tailwind as `bg-primary`, `text-muted`, …) | `siteConfig.theme` in `src/config/site.ts` |
 | 3D burger colors (only matters if you re-enable the 3D hero) | `siteConfig.burger3D` in `src/config/site.ts` |
-| WhatsApp number and default message | `siteConfig.whatsapp` (digits only, with country code; leave empty to disable) |
+| WhatsApp number and default message (currently unused — see the note at the top of this file) | `siteConfig.whatsapp` (digits only, with country code; leave empty to disable) |
 | Currency and number format | `siteConfig.currency` / `siteConfig.locale` |
 | Menu items and categories | `src/data/menu.ts` — currently Burgers, Pizza, Pasta, Sides, Drinks. Add a category by adding it to the `categories` array, then give items that `category` id |
 | Per-item size options (e.g. pizza Medium/Large), each with a `priceDelta` added to the base price | `sizes` on a `MenuItem` in `src/data/menu.ts` — omit for items with one fixed size; the customize page only shows a size picker when `sizes` is set |

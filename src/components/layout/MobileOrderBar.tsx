@@ -4,8 +4,7 @@ import { AnimatePresence, m, useMotionValueEvent, useScroll } from "framer-motio
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
-import { Button, WhatsAppIcon } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
 const ORDER_FLOW_PATHS = ["/order/", "/cart", "/checkout", "/order-status"];
 const isOrderFlowPath = (path: string) => ORDER_FLOW_PATHS.some((p) => path.startsWith(p));
@@ -21,7 +20,7 @@ export function MobileOrderBar() {
   const [visible, setVisible] = useState(false);
 
   // the in-site order flow (customize/cart/checkout/status) has its own sticky continue bar —
-  // showing the generic WhatsApp bar too would be a second, conflicting CTA mid-checkout
+  // showing this generic "browse the menu" bar too would be a second, conflicting CTA mid-checkout
   const inOrderFlow = isOrderFlowPath(pathname);
 
   const update = useCallback((y: number) => {
@@ -56,8 +55,7 @@ export function MobileOrderBar() {
           transition={{ type: "spring", stiffness: 320, damping: 32 }}
           className="pb-safe fixed inset-x-0 bottom-0 z-40 border-t border-foreground/10 bg-background/85 px-4 pt-3 backdrop-blur-xl md:hidden"
         >
-          <Button href={buildWhatsAppLink()} className="w-full">
-            <WhatsAppIcon />
+          <Button href="/menu" className="w-full">
             {siteConfig.hero.primaryCta}
           </Button>
         </m.div>

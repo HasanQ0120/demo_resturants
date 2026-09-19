@@ -66,7 +66,6 @@ export function Navbar() {
             );
           })}
           <CartIcon />
-          {/* not tied to one item, so this sends people to choose something, not straight to WhatsApp */}
           <Button href="/menu" className="min-h-11 px-5 text-sm">
             {siteConfig.hero.primaryCta}
           </Button>

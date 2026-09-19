@@ -1,7 +1,6 @@
 import { siteConfig } from "@/config/site";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { Reveal } from "@/components/motion/Reveal";
-import { Button, WhatsAppIcon } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
 export function OrderCTA() {
   const { orderCta, contact } = siteConfig;
@@ -28,8 +27,7 @@ export function OrderCTA() {
           </div>
 
           <div className="flex flex-col gap-3 md:items-end">
-            <Button href={buildWhatsAppLink()} variant="dark" className="w-full md:w-auto">
-              <WhatsAppIcon />
+            <Button href="/menu" variant="dark" className="w-full md:w-auto">
               {orderCta.button}
             </Button>
             <a
