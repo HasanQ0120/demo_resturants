@@ -7,6 +7,7 @@ import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MobileOrderBar } from "@/components/layout/MobileOrderBar";
+import { PageFade } from "@/components/transitions/PageFade";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.brand.url),
@@ -54,10 +55,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-dvh bg-background font-sans text-foreground">
         <Providers>
-          {/* Shared chrome: every route gets the nav, footer and mobile order bar. */}
+          {/* Shared chrome: every route gets the nav, footer and mobile order bar — none of
+              these are inside PageFade, so they never remount/flicker on navigation. Only the
+              actual page content (main) fades. */}
           <div className="grain">
             <Navbar />
-            <main>{children}</main>
+            <main>
+              <PageFade>{children}</PageFade>
+            </main>
             <Footer />
             <MobileOrderBar />
           </div>
