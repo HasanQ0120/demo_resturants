@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
+/* Fallbacks — real values are injected on <html> from src/config/site.ts */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-background: #0b0908;
+  --brand-surface: #17120f;
+  --brand-primary: #ff5a1f;
+  --brand-accent: #ffc53d;
+  --brand-foreground: #f7efe6;
+  --brand-muted: #a89a8c;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--brand-background);
+  --color-surface: var(--brand-surface);
+  --color-primary: var(--brand-primary);
+  --color-accent: var(--brand-accent);
+  --color-foreground: var(--brand-foreground);
+  --color-muted: var(--brand-muted);
+  --font-sans: var(--font-body-face), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  -webkit-tap-highlight-color: transparent;
+  scroll-padding-top: 5rem;
+}
+
+/*
+ * Smooth scroll is opt-in via this class, added by JS after hydration (see Providers.tsx) —
+ * NOT a blanket `html { scroll-behavior: smooth }`. That blanket rule also governs the
+ * browser's own initial jump to a URL fragment (e.g. reloading /#about), which then animates
+ * instead of snapping straight there, and can visually read as "starting mid-page" or as if
+ * the reload landed somewhere wrong. Gating it behind a post-hydration class keeps that first,
+ * built-in jump instant, while in-session anchor clicks and Next's own scroll-to-top on
+ * navigation still animate smoothly.
+ */
+html.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.smooth-scroll {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--brand-background);
+  color: var(--brand-foreground);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--brand-primary);
+  color: var(--brand-background);
+}
+
+/* Subtle film grain for a premium feel (pure CSS, no image request) */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* CSS-only entrance for above-the-fold copy (runs before hydration → fast LCP) */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes glow-pulse {
+  50% {
+    opacity: 0.55;
+    transform: scale(1.08);
+  }
+}
+.animate-glow {
+  animation: glow-pulse 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-glow {
+    animation: none;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Dark-theme the Leaflet map's default chrome (see LocationsMap.tsx) — its stock styling is
+   light-mode only, with no built-in way to theme it via props. */
+.leaflet-container {
+  background: var(--brand-surface);
+  font-family: var(--font-body-face), ui-sans-serif, system-ui, sans-serif;
+}
+/* the Esri dark-gray basemap is a mid-grey by default — pull it closer to the brand's near-black */
+.leaflet-tile-pane {
+  filter: brightness(0.65) contrast(1.05);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--brand-surface) !important;
+  color: var(--brand-foreground) !important;
+  box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
+}
+.leaflet-popup-content {
+  margin: 0.75rem 1rem;
+  line-height: 1.5;
+}
+.leaflet-popup-content strong {
+  color: var(--brand-foreground) !important;
+}
+.leaflet-popup-close-button {
+  color: var(--brand-muted) !important;
+}
+.leaflet-control-zoom a {
+  background: var(--brand-surface) !important;
+  color: var(--brand-foreground) !important;
+  border-color: color-mix(in oklab, var(--brand-foreground) 15%, transparent) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: color-mix(in oklab, var(--brand-foreground) 10%, var(--brand-surface)) !important;
+}
+.leaflet-control-attribution {
+  background: color-mix(in oklab, var(--brand-background) 70%, transparent) !important;
+  color: var(--brand-muted) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--brand-muted) !important;
+}
+
+/*
+ * Traced frame: a soft segment of light continuously travelling around an SVG rect that
+ * outlines a group of cards — see TracedFrame.tsx. The <rect> uses pathLength={100}, so the
+ * visible segment and gap are plain percentages of the perimeter (16 84 below), independent
+ * of actual pixel size — and because it's a real path (not a masked gradient), rounded
+ * corners render correctly by construction, unlike a conic-gradient/mask approach. Plain
+ * `stroke-dashoffset` animation, no @property/Houdini dependency — works everywhere.
+ */
+@keyframes trace-dash {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+.traced-path {
+  animation: trace-dash var(--traced-duration, 7s) linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .traced-path {
+    animation: none;
+  }
 }
