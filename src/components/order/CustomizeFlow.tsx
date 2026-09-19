@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { m } from "framer-motion";
 import type { MenuItem } from "@/data/menu";
@@ -9,8 +11,6 @@ import { orderFlowConfig } from "@/config/orderFlow";
 import { formatPrice } from "@/lib/format";
 import { addToCart, defaultCustomization, lineSubtotal, type SpiceLevel } from "@/lib/order";
 import { QuantityStepper } from "./QuantityStepper";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
-import { useCurtainNav } from "@/components/transitions/PageCurtain";
 
 const spiceLevels: { id: SpiceLevel; label: string }[] = [
   { id: "mild", label: "Mild" },
@@ -19,7 +19,7 @@ const spiceLevels: { id: SpiceLevel; label: string }[] = [
 ];
 
 export function CustomizeFlow({ item }: { item: MenuItem }) {
-  const navigate = useCurtainNav();
+  const router = useRouter();
   const copy = orderFlowConfig.customize;
   const [state, setState] = useState(() => defaultCustomization(item));
 
@@ -42,14 +42,14 @@ export function CustomizeFlow({ item }: { item: MenuItem }) {
 
   const handleAddToCart = () => {
     addToCart(state);
-    navigate("/cart");
+    router.push("/cart");
   };
 
   return (
     <div className="mx-auto max-w-3xl px-5 pb-32 pt-28 md:px-8 md:pb-24 md:pt-36">
-      <CurtainLink href="/menu" className="text-sm font-medium text-muted transition-colors hover:text-foreground">
+      <Link href="/menu" className="text-sm font-medium text-muted transition-colors hover:text-foreground">
         ← {copy.backCta}
-      </CurtainLink>
+      </Link>
 
       <p className="mt-8 text-xs font-semibold uppercase tracking-[0.25em] text-primary">{copy.eyebrow}</p>
 

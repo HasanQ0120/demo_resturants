@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
@@ -10,7 +11,6 @@ import { formatPrice } from "@/lib/format";
 import { cartBreakdown, getPlacedOrderServerSnapshot, lineSubtotal, readPlacedOrder } from "@/lib/order";
 import { OrderStepper } from "./OrderStepper";
 import { BikeIcon, CheckIcon, FlameIcon } from "./StatusIcons";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
 
 const icons = [CheckIcon, FlameIcon, BikeIcon];
 const stages = orderFlowConfig.status.stages;
@@ -163,9 +163,9 @@ export function OrderStatusTracker() {
 
       {onFinalStage && (
         <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 text-center">
-          <CurtainLink href="/menu" className="text-sm font-semibold text-primary hover:underline">
+          <Link href="/menu" className="text-sm font-semibold text-primary hover:underline">
             {copy.newOrderCta} →
-          </CurtainLink>
+          </Link>
         </m.div>
       )}
     </div>

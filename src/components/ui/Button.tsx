@@ -1,11 +1,15 @@
 "use client";
 
 import { m } from "framer-motion";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { CurtainLink } from "@/components/transitions/CurtainLink";
 
-// internal routes play the PageCurtain wipe (and still prefetch); everything else is a plain anchor
-const MotionLink = m.create(CurtainLink);
+// internal routes navigate client-side (and prefetch); everything else is a plain anchor.
+// The PageCurtain wipe is reserved for the navbar (see `curtain` prop below) — everywhere
+// else gets the simple site-wide fade instead (PageFade.tsx), so it isn't on every click.
+const MotionLink = m.create(Link);
+const MotionCurtainLink = m.create(CurtainLink);
 
 type Variant = "primary" | "ghost" | "dark";
 
@@ -23,12 +27,22 @@ type ButtonProps = {
   className?: string;
   ariaLabel?: string;
   onClick?: () => void;
+  /** Plays the PageCurtain wipe instead of the default fade — the navbar's Order Now uses this. */
+  curtain?: boolean;
 };
 
-export function Button({ href, children, variant = "primary", className = "", ariaLabel, onClick }: ButtonProps) {
+export function Button({
+  href,
+  children,
+  variant = "primary",
+  className = "",
+  ariaLabel,
+  onClick,
+  curtain = false,
+}: ButtonProps) {
   const external = href.startsWith("http");
   const internalRoute = href.startsWith("/") && !href.startsWith("//");
-  const Tag = internalRoute ? MotionLink : m.a;
+  const Tag = internalRoute ? (curtain ? MotionCurtainLink : MotionLink) : m.a;
 
   return (
     <Tag

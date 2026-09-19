@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { m } from "framer-motion";
 import { getAddOn } from "@/data/addons";
 import { getMenuItem } from "@/data/menu";
@@ -10,10 +11,9 @@ import { cartBreakdown, lineSubtotal, removeCartLine, updateCartLine } from "@/l
 import { useCart } from "@/hooks/useCart";
 import { QuantityStepper } from "./QuantityStepper";
 import { OrderStepper } from "./OrderStepper";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
 
-// internal routes play the PageCurtain wipe (and still prefetch) — same pattern as ui/Button.tsx
-const MotionLink = m.create(CurtainLink);
+// internal routes navigate client-side (and prefetch) — same pattern as ui/Button.tsx
+const MotionLink = m.create(Link);
 
 export function CartFlow() {
   const { cart } = useCart();
@@ -26,12 +26,12 @@ export function CartFlow() {
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">{copy.eyebrow}</p>
         <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight md:text-4xl">{copy.emptyTitle}</h1>
         <p className="mt-2 text-sm text-muted">{copy.emptySubtitle}</p>
-        <CurtainLink
+        <Link
           href="/menu"
           className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 font-semibold text-background"
         >
           {copy.browseCta}
-        </CurtainLink>
+        </Link>
       </div>
     );
   }
@@ -88,12 +88,12 @@ export function CartFlow() {
         })}
       </ul>
 
-      <CurtainLink
+      <Link
         href="/menu"
         className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
       >
         + {copy.continueShoppingCta}
-      </CurtainLink>
+      </Link>
 
       {/* sticky checkout bar */}
       <div className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-foreground/10 bg-background/90 px-5 pt-3 backdrop-blur-xl md:static md:mt-8 md:border-0 md:bg-transparent md:p-0">

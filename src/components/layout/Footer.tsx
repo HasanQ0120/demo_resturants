@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { siteConfig, type SocialPlatform } from "@/config/site";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
 
 const socialPaths: Record<SocialPlatform, string> = {
   instagram:
@@ -21,10 +21,10 @@ export function Footer() {
     <footer id="contact" className="border-t border-foreground/10 bg-surface pb-28 pt-16 md:pb-12">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-2 md:px-8 lg:grid-cols-4">
         <div className="space-y-4">
-          <CurtainLink href="/" className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-2.5">
             <Image src={brand.logo} alt="" width={40} height={40} className="size-10" />
             <span className="font-display text-xl font-bold">{brand.name}</span>
-          </CurtainLink>
+          </Link>
           <p className="max-w-xs text-sm leading-relaxed text-muted">{brand.tagline}</p>
           <ul className="flex gap-2">
             {socials.map((s) => (
@@ -85,9 +85,9 @@ export function Footer() {
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           {nav.map((l) => (
             <li key={l.href}>
-              <CurtainLink href={l.href} className="inline-block py-1 hover:text-foreground">
+              <Link href={l.href} className="inline-block py-1 hover:text-foreground">
                 {l.label}
-              </CurtainLink>
+              </Link>
             </li>
           ))}
         </ul>

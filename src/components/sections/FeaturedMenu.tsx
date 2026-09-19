@@ -1,10 +1,10 @@
+import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { menuItems } from "@/data/menu";
 import { SectionHeading } from "./SectionHeading";
 import { MenuCard } from "./MenuCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { TracedFrame } from "./TracedFrame";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
 
 /** Home-page teaser: the items flagged `featured` in the menu data, capped at three. */
 export function FeaturedMenu() {
@@ -20,7 +20,7 @@ export function FeaturedMenu() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeading {...featuredSection} />
             <Reveal className="hidden md:block" delay={0.1}>
-              <CurtainLink
+              <Link
                 href="/menu"
                 className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-foreground/15 px-5 text-sm font-semibold transition-colors hover:border-primary hover:bg-primary hover:text-background"
               >
@@ -28,7 +28,7 @@ export function FeaturedMenu() {
                 <span aria-hidden className="transition-transform group-hover:translate-x-1">
                   →
                 </span>
-              </CurtainLink>
+              </Link>
             </Reveal>
           </div>
 
@@ -40,13 +40,13 @@ export function FeaturedMenu() {
         </TracedFrame>
 
         <Reveal className="mt-8 md:hidden">
-          <CurtainLink
+          <Link
             href="/menu"
             className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-foreground/15 px-6 text-base font-semibold"
           >
             {featuredSection.cta}
             <span aria-hidden>→</span>
-          </CurtainLink>
+          </Link>
         </Reveal>
       </div>
     </section>

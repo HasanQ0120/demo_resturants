@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { m } from "framer-motion";
 import type { Ref } from "react";
 import type { MenuItem } from "@/data/menu";
 import { formatPrice } from "@/lib/format";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
 
-// internal routes play the PageCurtain wipe (and still prefetch) — same pattern as ui/Button.tsx
-const MotionLink = m.create(CurtainLink);
+// internal routes navigate client-side (and prefetch) — same pattern as ui/Button.tsx
+const MotionLink = m.create(Link);
 
 // `ref` must reach the root element for AnimatePresence mode="popLayout"
 type Props = { item: MenuItem; index: number; ref?: Ref<HTMLLIElement> };

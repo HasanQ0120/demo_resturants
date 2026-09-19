@@ -3,6 +3,7 @@
 import { LazyMotion, MotionConfig, domAnimation } from "framer-motion";
 import { useEffect, type ReactNode } from "react";
 import { PageCurtainProvider } from "./transitions/PageCurtain";
+import { PageFade } from "./transitions/PageFade";
 
 export function Providers({ children }: { children: ReactNode }) {
   // Runs after the browser's own initial fragment scroll (e.g. a reload of /#about) has
@@ -14,7 +15,9 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <LazyMotion features={domAnimation} strict>
       <MotionConfig reducedMotion="user" transition={{ ease: [0.22, 1, 0.36, 1] }}>
-        <PageCurtainProvider>{children}</PageCurtainProvider>
+        <PageCurtainProvider>
+          <PageFade>{children}</PageFade>
+        </PageCurtainProvider>
       </MotionConfig>
     </LazyMotion>
   );

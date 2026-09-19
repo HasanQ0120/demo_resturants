@@ -1,13 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
 
 export function CartIcon({ className = "" }: { className?: string }) {
   const { count } = useCart();
 
   return (
-    <CurtainLink
+    <Link
       href="/cart"
       aria-label={count > 0 ? `Cart, ${count} item${count === 1 ? "" : "s"}` : "Cart"}
       className={`relative grid size-11 shrink-0 place-items-center rounded-full transition-colors hover:bg-foreground/5 ${className}`}
@@ -25,6 +25,6 @@ export function CartIcon({ className = "" }: { className?: string }) {
           {count > 9 ? "9+" : count}
         </span>
       )}
-    </CurtainLink>
+    </Link>
   );
 }

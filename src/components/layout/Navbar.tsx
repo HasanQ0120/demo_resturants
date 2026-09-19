@@ -66,7 +66,7 @@ export function Navbar() {
             );
           })}
           <CartIcon />
-          <Button href="/menu" className="min-h-11 px-5 text-sm">
+          <Button href="/menu" curtain className="min-h-11 px-5 text-sm">
             {siteConfig.hero.primaryCta}
           </Button>
         </div>
@@ -125,7 +125,7 @@ export function Navbar() {
                 );
               })}
             </ul>
-            <Button href="/menu" className="w-full" onClick={() => setOpen(false)}>
+            <Button href="/menu" curtain className="w-full" onClick={() => setOpen(false)}>
               {siteConfig.hero.primaryCta}
             </Button>
           </m.div>

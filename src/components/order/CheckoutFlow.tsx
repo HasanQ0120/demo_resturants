@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { m } from "framer-motion";
@@ -18,12 +19,9 @@ import {
   type Fulfillment,
 } from "@/lib/order";
 import { OrderStepper } from "./OrderStepper";
-import { CurtainLink } from "@/components/transitions/CurtainLink";
-import { useCurtainNav } from "@/components/transitions/PageCurtain";
 
 export function CheckoutFlow() {
   const router = useRouter();
-  const navigate = useCurtainNav();
   const copy = orderFlowConfig.checkout;
   // useSyncExternalStore (not useState+useEffect): the first client render must match the
   // server-rendered HTML (an empty cart), or a hard reload here throws a hydration error.
@@ -63,14 +61,14 @@ export function CheckoutFlow() {
       placedAt: Date.now(),
     });
     clearCart();
-    navigate("/order-status");
+    router.push("/order-status");
   };
 
   return (
     <div className="mx-auto max-w-3xl px-5 pb-32 pt-28 md:px-8 md:pb-24 md:pt-36">
-      <CurtainLink href="/cart" className="text-sm font-medium text-muted transition-colors hover:text-foreground">
+      <Link href="/cart" className="text-sm font-medium text-muted transition-colors hover:text-foreground">
         ← {copy.editCta}
-      </CurtainLink>
+      </Link>
       <div className="mt-5 flex justify-center">
         <OrderStepper current={2} />
       </div>
