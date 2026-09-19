@@ -24,6 +24,14 @@ const CurtainNavContext = createContext<(href: string) => void>(() => {});
 /** Used by CurtainLink — triggers the wipe, then performs the real navigation once covered. */
 export const useCurtainNav = () => useContext(CurtainNavContext);
 
+/**
+ * True from the moment a curtain-covered navigation actually swaps the route until the curtain
+ * finishes uncovering it. Read (not subscribed to) by PageFade so a curtain-driven route change
+ * doesn't ALSO run the separate fade underneath — it'd be invisible behind the opaque curtain
+ * either way, but skipping it removes one axis of the two systems ever fighting each other.
+ */
+export let curtainNavActive = false;
+
 /** Static routes outside the main nav that still deserve a friendly label on the curtain. */
 const EXTRA_LABELS: Record<string, string> = {
   "/cart": "Cart",
@@ -70,6 +78,7 @@ export function PageCurtainProvider({ children }: { children: ReactNode }) {
         duration: SWEEP_S,
         ease: EASE,
         onComplete: () => {
+          curtainNavActive = true;
           if (pendingHref.current) router.push(pendingHref.current);
         },
       });
@@ -90,6 +99,7 @@ export function PageCurtainProvider({ children }: { children: ReactNode }) {
         x.set(-100); // instant — both -100 and 100 are off-screen, so this snap is invisible
         pendingHref.current = null;
         phase.current = "idle";
+        curtainNavActive = false;
       },
     });
   }, [pathname, x]);
