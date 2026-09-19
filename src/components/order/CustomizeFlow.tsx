@@ -45,6 +45,12 @@ export function CustomizeFlow({ item }: { item: MenuItem }) {
     router.push("/cart");
   };
 
+  // for a single-item order — adds it, then skips straight to checkout instead of the cart page
+  const handleBuyNow = () => {
+    addToCart(state);
+    router.push("/checkout");
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-5 pb-32 pt-28 md:px-8 md:pb-24 md:pt-36">
       <Link href="/menu" className="text-sm font-medium text-muted transition-colors hover:text-foreground">
@@ -188,15 +194,24 @@ export function CustomizeFlow({ item }: { item: MenuItem }) {
         </section>
       </div>
 
-      {/* sticky continue bar */}
-      <div className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-foreground/10 bg-background/90 px-5 pt-3 backdrop-blur-xl md:static md:mt-12 md:border-0 md:bg-transparent md:p-0">
+      {/* sticky continue bar — "Add to Cart" for building a bigger order, "Order Now" to skip
+          the cart page entirely and go straight to checkout with just this one item */}
+      <div className="pb-safe fixed inset-x-0 bottom-0 z-30 flex gap-3 border-t border-foreground/10 bg-background/90 px-5 pt-3 backdrop-blur-xl md:static md:mt-12 md:border-0 md:bg-transparent md:p-0">
         <m.button
           type="button"
           onClick={handleAddToCart}
           whileTap={{ scale: 0.98 }}
-          className="flex min-h-14 w-full items-center justify-between rounded-full bg-primary px-6 font-semibold text-background"
+          className="flex min-h-14 flex-1 items-center justify-center rounded-full border border-foreground/20 px-4 text-sm font-semibold text-foreground transition-colors hover:border-foreground/40"
         >
-          <span>{copy.continueCta}</span>
+          {copy.continueCta}
+        </m.button>
+        <m.button
+          type="button"
+          onClick={handleBuyNow}
+          whileTap={{ scale: 0.98 }}
+          className="flex min-h-14 flex-[1.4] items-center justify-between rounded-full bg-primary px-6 font-semibold text-background"
+        >
+          <span>{copy.buyNowCta}</span>
           <span className="tabular-nums">{formatPrice(total)}</span>
         </m.button>
       </div>

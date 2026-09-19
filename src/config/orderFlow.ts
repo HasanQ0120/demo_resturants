@@ -11,6 +11,8 @@ export const orderFlowConfig = {
     spiceTitle: "Spice level",
     quantityTitle: "Quantity",
     continueCta: "Add to Cart",
+    /** Skips the cart page entirely — adds this item then goes straight to checkout, for a single-item order. */
+    buyNowCta: "Order Now",
     backCta: "Back to menu",
   },
   cart: {
